@@ -1,0 +1,43 @@
+﻿<h2>Actualizar Exchange</h2>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="from">Moneda Origen: </label>
+        <select formControlName="from" (change)="filterExchange()" [ngClass]="{ 'is-invalid': submitted && f.to.errors }">
+            <option *ngFor="let money of listMoney" value="{{money.typeAbbr}}" >
+                {{money.symbol}} - {{money.description}}
+            </option>
+        </select>
+        <div *ngIf="submitted && f.from.errors" class="invalid-feedback">
+            <div *ngIf="f.from.errors.required">Moneda de origen es requerido</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="to">Moneda Destino: </label>
+        <select formControlName="to" (change)="filterExchange()" [ngClass]="{ 'is-invalid': submitted && f.to.errors }">
+            <option *ngFor="let money of listMoney" value="{{money.typeAbbr}}">
+              {{money.symbol}} - {{money.description}}
+            </option>
+        </select>
+        <div *ngIf="submitted && f.to.errors" class="invalid-feedback">
+            <div *ngIf="f.to.errors.required">Moneda de destino es requerido</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="exchangeRate">Cambio</label>
+        <input  [disabled]="true" type="text"  class="form-control" value="{{exchange}}"/>
+    </div>
+    <div class="form-group">
+        <label for="rate">Nuevo Valor</label>
+        <input type="text" formControlName="rate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.rate.errors }" />
+        <div *ngIf="submitted && f.rate.errors" class="invalid-feedback">
+            <div *ngIf="f.rate.errors.required">Nuevo Cambio es requerido</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Actualizar
+        </button>
+        <a routerLink="/principal" class="btn btn-link">Cancel</a>
+    </div>
+</form>
